@@ -32,4 +32,40 @@ Collection为对应的实体对象类型
 | /homework/all     | GET    | courseId        |      | 获取指定course拥有的所有homework对象 | 若course不存在返回500        |
 | /task/all         | GET    | userId          |      | 获取指定user拥有的所有task对象       | 若user不存在返回500          |
 
+## 示例
+
+新用户注册(添加一个user):
+
+```javascript
+function postUser() {
+    axios.post('http://localhost:8080/user', {
+        name: "张维为",
+        password: "123456",
+        phone: "11451419198",
+        email: "123456789@zww.com",
+        studentNumber: "211250999",
+        avatarUrl: "",
+        grade: "大四"
+    }).then(res => {
+        console.log(res) // 请求成功的回调
+    }, err => {
+        console.log(err) // 请求失败的回调
+    })
+}
+```
+
+查询指定task:
+
+```javascript
+function getTask() {
+    let id = '656f0fc5b7821e754548b245'
+    axios.get(`http://localhost:8080/task?id=${id}`)
+        .then(res => {
+            console.log(res)
+        }, err => {
+            console.log(err)
+        })
+}
+```
+
 
