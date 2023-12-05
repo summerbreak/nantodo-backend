@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      host: 47.115.201.228
+      port: 27017
+      username: nantodo
+      password: nantodo
+      database: nantodo
+      authentication-database: nantodo
