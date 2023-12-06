@@ -15,6 +15,7 @@ public class Group {
     private String leaderId;
     private String organName;
     private String description;
+    private String type;
     private List<String> members;
     private List<String> tasks;
 }
