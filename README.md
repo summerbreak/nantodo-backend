@@ -23,14 +23,15 @@ Collection为对应的实体对象类型
 
 ## 特定接口
 
-| 前缀                | method | param           | body | 功能                        | 备注                     |
-| ----------------- | ------ | --------------- | ---- | ------------------------- | ---------------------- |
-| /user/login       | GET    | phone, password |      | 根据手机号与密码获取对应user对象        | 若用户不存在返回404，若密码错误返回401 |
-| /course/all       | GET    | userId          |      | 获取指定user拥有的所有course对象     | 若user不存在返回500          |
-| /course/allCourse | GET    |                 |      | 获取所有课程                    |                        |
-| /group/all        | GET    | userId          |      | 获取指定user拥有的所有group对象      | 若user不存在返回500          |
-| /homework/all     | GET    | courseId        |      | 获取指定course拥有的所有homework对象 | 若course不存在返回500        |
-| /task/all         | GET    | userId          |      | 获取指定user拥有的所有task对象       | 若user不存在返回500          |
+| 前缀                | method | param           | body | 功能                           | 备注                     |
+| ----------------- | ------ | --------------- | ---- | ---------------------------- | ---------------------- |
+| /user/login       | GET    | phone, password |      | 根据手机号与密码获取对应user对象           | 若用户不存在返回404，若密码错误返回401 |
+| /course/all       | GET    | userId          |      | 获取指定user拥有的所有course对象        | 若user不存在返回500          |
+| /course/allCourse | GET    |                 |      | 获取所有课程                       |                        |
+| /group/all        | GET    | userId          |      | 获取指定user拥有的所有group对象         | 若user不存在返回500          |
+| /group/allMember  | GET    | groupId         |      | 获取指定group拥有的所有member(user)对象 | 若group不存在返回500         |
+| /homework/all     | GET    | courseId        |      | 获取指定course拥有的所有homework对象    | 若course不存在返回500        |
+| /task/all         | GET    | userId          |      | 获取指定user拥有的所有task对象          | 若user不存在返回500          |
 
 ## 示例
 
@@ -67,5 +68,3 @@ function getTask() {
         })
 }
 ```
-
-

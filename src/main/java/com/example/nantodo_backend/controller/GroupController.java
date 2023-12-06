@@ -35,6 +35,16 @@ public class GroupController {
         return user.getGroups().stream().map(id -> groupRepository.findById(id).orElse(null)).collect(Collectors.toList());
     }
 
+    @GetMapping("/allMember")
+    public List<User> getAllUserOfGroup(@RequestParam String groupId, HttpServletResponse response) {
+        Group group = groupRepository.findById(groupId).orElse(null);
+        if (group == null) {
+            response.setStatus(500);
+            return null;
+        }
+        return group.getMembers().stream().map(id -> userRepository.findById(id).orElse(null)).collect(Collectors.toList());
+    }
+
     @PostMapping
     public void addGroup(@RequestBody Group group) {
         group.setMembers(new ArrayList<>());
