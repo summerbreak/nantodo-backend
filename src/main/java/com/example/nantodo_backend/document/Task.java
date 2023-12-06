@@ -17,4 +17,5 @@ public class Task {
     private boolean starred;
     private boolean done;
     private Date deadline;
+    private String userId;
 }
