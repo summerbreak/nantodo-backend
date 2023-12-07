@@ -17,6 +17,8 @@ public class Course {
     private String description;
     private Integer grade;
     private Boolean open;
+    private String semester;
     private List<String> groups;
     private List<String> homeworks;
+    private List<String> students;
 }

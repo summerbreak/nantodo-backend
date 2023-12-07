@@ -44,6 +44,7 @@ public class CourseController {
     public void addCourse(@RequestBody Course course) {
         course.setGroups(new ArrayList<>());
         course.setHomeworks(new ArrayList<>());
+        course.setStudents(new ArrayList<>());
         courseRepository.save(course);
     }
 
