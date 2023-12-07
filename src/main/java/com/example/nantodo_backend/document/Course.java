@@ -15,6 +15,8 @@ public class Course {
     private String name;
     private String teacher;
     private String description;
+    private Integer grade;
+    private Boolean open;
     private List<String> groups;
     private List<String> homeworks;
 }
