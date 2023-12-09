@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "course")
@@ -18,7 +19,7 @@ public class Course {
     private Integer grade;
     private Boolean open;
     private String semester;
-    private List<String> groups;
-    private List<String> homeworks;
-    private List<String> students;
+    private List<String> groups = new ArrayList<>();
+    private List<String> homeworks = new ArrayList<>();
+    private List<String> students = new ArrayList<>();
 }

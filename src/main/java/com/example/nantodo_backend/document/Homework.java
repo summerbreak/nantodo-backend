@@ -15,6 +15,6 @@ public class Homework {
     private String content;
     private Date releaseTime;
     private Date deadline;
-    private List<String> doneGroups;
+    private List<String> doneGroups = new ArrayList<>();
     private String courseId;
 }

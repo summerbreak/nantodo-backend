@@ -1,5 +1,6 @@
 package com.example.nantodo_backend.document;
 
+import com.example.nantodo_backend.pojo.Message;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,7 +20,8 @@ public class User {
     private String avatarUrl;
     private String grade;
     private String password;
-    private List<String> courses;
-    private List<String> groups;
-    private List<String> tasks;
+    private List<String> courses = new ArrayList<>();
+    private List<String> groups = new ArrayList<>();
+    private List<String> tasks = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();
 }

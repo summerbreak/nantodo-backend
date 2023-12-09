@@ -1,9 +1,11 @@
 package com.example.nantodo_backend.document;
 
+import com.example.nantodo_backend.pojo.Application;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "group")
@@ -16,6 +18,9 @@ public class Group {
     private String organName;
     private String description;
     private String type;
-    private List<String> members;
-    private List<String> tasks;
+    private Integer capacity;
+    private String courseId;
+    private List<String> members = new ArrayList<>();
+    private List<String> tasks = new ArrayList<>();
+    private List<Application> applications = new ArrayList<>();
 }

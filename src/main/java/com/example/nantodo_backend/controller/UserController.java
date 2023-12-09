@@ -2,12 +2,11 @@ package com.example.nantodo_backend.controller;
 
 import com.example.nantodo_backend.document.User;
 import com.example.nantodo_backend.data.UserRepository;
+import com.example.nantodo_backend.pojo.Message;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @CrossOrigin
 @RestController
@@ -39,9 +38,17 @@ public class UserController {
 
     @PostMapping
     public void addUser(@RequestBody User user) {
-        user.setCourses(new ArrayList<>());
-        user.setGroups(new ArrayList<>());
-        user.setTasks(new ArrayList<>());
+        userRepository.save(user);
+    }
+
+    @PostMapping("/message")
+    public void addMessage(@RequestParam String id, @RequestBody Message message, HttpServletResponse response) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            response.setStatus(500);
+            return;
+        }
+        user.getMessages().add(message);
         userRepository.save(user);
     }
 

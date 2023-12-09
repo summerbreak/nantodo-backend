@@ -4,6 +4,7 @@ import com.example.nantodo_backend.data.GroupRepository;
 import com.example.nantodo_backend.data.UserRepository;
 import com.example.nantodo_backend.document.Group;
 import com.example.nantodo_backend.document.User;
+import com.example.nantodo_backend.pojo.Application;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -47,8 +48,17 @@ public class GroupController {
 
     @PostMapping
     public void addGroup(@RequestBody Group group) {
-        group.setMembers(new ArrayList<>());
-        group.setTasks(new ArrayList<>());
+        groupRepository.save(group);
+    }
+
+    @PostMapping("/app")
+    public void addApplication(@RequestParam String id, @RequestBody Application application, HttpServletResponse response) {
+        Group group = groupRepository.findById(id).orElse(null);
+        if (group == null) {
+            response.setStatus(500);
+            return;
+        }
+        group.getApplications().add(application);
         groupRepository.save(group);
     }
 
