@@ -37,8 +37,9 @@ public class UserController {
     }
 
     @PostMapping
-    public void addUser(@RequestBody User user) {
+    public String addUser(@RequestBody User user) {
         userRepository.save(user);
+        return user.getId();
     }
 
     @PostMapping("/message")

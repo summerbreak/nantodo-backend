@@ -41,8 +41,9 @@ public class CourseController {
     }
 
     @PostMapping
-    public void addCourse(@RequestBody Course course) {
+    public String addCourse(@RequestBody Course course) {
         courseRepository.save(course);
+        return course.getId();
     }
 
     @PutMapping

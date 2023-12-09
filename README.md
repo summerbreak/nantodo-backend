@@ -14,12 +14,12 @@ collection是枚举变量，可取值: user, course, group, homework, task
 
 Collection为对应的实体对象类型
 
-| 前缀          | method | param | body           | 功能         | 备注  |
-| ----------- | ------ | ----- | -------------- | ---------- | --- |
-| /collection | GET    | id    |                | 根据id获取一个对象 |     |
-| /collection | POST   |       | {}: Collection | 添加一个对象     |     |
-| /collection | PUT    | id    | {}: Collection | 修改一个已存在对象  |     |
-| /collection | DELETE | id    |                | 根据id删除一个对象 |     |
+| 前缀          | method | param | body           | 功能           | 备注  |
+| ----------- | ------ | ----- | -------------- | ------------ | --- |
+| /collection | GET    | id    |                | 根据id获取一个对象   |     |
+| /collection | POST   |       | {}: Collection | 添加一个对象，返回其id |     |
+| /collection | PUT    | id    | {}: Collection | 修改一个已存在对象    |     |
+| /collection | DELETE | id    |                | 根据id删除一个对象   |     |
 
 ## 特定接口
 

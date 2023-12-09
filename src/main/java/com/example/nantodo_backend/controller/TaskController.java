@@ -36,8 +36,9 @@ public class TaskController {
     }
 
     @PostMapping
-    public void addTask(@RequestBody Task task) {
+    public String addTask(@RequestBody Task task) {
         taskRepository.save(task);
+        return task.getId();
     }
 
     @PutMapping

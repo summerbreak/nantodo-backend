@@ -47,8 +47,9 @@ public class GroupController {
     }
 
     @PostMapping
-    public void addGroup(@RequestBody Group group) {
+    public String addGroup(@RequestBody Group group) {
         groupRepository.save(group);
+        return group.getId();
     }
 
     @PostMapping("/app")

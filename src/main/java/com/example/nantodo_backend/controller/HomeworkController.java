@@ -36,8 +36,9 @@ public class HomeworkController {
     }
 
     @PostMapping
-    public void addHomework(@RequestBody Homework homework) {
+    public String addHomework(@RequestBody Homework homework) {
         homeworkRepository.save(homework);
+        return homework.getId();
     }
 
     @PutMapping
