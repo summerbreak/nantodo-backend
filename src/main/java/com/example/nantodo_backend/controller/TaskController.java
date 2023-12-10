@@ -36,8 +36,16 @@ public class TaskController {
     }
 
     @PostMapping
-    public String addTask(@RequestBody Task task) {
+    public String addTask(@RequestBody Task task, HttpServletResponse response) {
+        // 添加到用户的任务列表
+        User user = userRepository.findById(task.getUserId()).orElse(null);
+        if (user == null) {
+            response.setStatus(500);
+            return null;
+        }
         taskRepository.save(task);
+        user.getTasks().add(task.getId());
+        userRepository.save(user);
         return task.getId();
     }
 

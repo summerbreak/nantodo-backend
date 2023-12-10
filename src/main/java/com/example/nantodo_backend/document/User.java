@@ -22,6 +22,7 @@ public class User {
     private String password;
     private List<String> courses = new ArrayList<>();
     private List<String> groups = new ArrayList<>();
+    private List<String> pendingGroups = new ArrayList<>();
     private List<String> tasks = new ArrayList<>();
     private List<Message> messages = new ArrayList<>();
 }

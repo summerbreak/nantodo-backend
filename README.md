@@ -62,7 +62,7 @@ function postUser() {
 ```javascript
 function getTask() {
     let id = '656f0fc5b7821e754548b245'
-    axios.get(`http://localhost:8080/task?id=${id}`)
+    axios.get(`http://localhost:8080/task?userId=${id}`)
         .then(res => {
             console.log(res)
         }, err => {
