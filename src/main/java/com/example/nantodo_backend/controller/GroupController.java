@@ -77,6 +77,27 @@ public class GroupController {
         groupRepository.save(group);
     }
 
+    // 通过邀请码加入小组
+    @PutMapping("/invite")
+    public void joinByInviting(@RequestParam String code, @RequestParam String userId, HttpServletResponse response) {
+        List<Group> groups = groupRepository.findAll();
+        for (Group group : groups) {
+            String invitingCode = group.getId().substring(group.getId().length() - 6).toUpperCase();
+            if (invitingCode.equals(code)) {
+                // 若已满员则返回400状态码
+                if (group.getMembers().size() == group.getCapacity()) {
+                    response.setStatus(400);
+                    return;
+                }
+                group.getMembers().add(userId);
+                groupRepository.save(group);
+                return;
+            }
+        }
+        // 若未找到对应的小组则返回500状态码
+        response.setStatus(500);
+    }
+
     @DeleteMapping
     public void deleteGroup(@RequestParam String id) {
         groupRepository.deleteById(id);
