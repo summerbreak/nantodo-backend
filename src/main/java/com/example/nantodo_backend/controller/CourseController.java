@@ -1,8 +1,10 @@
 package com.example.nantodo_backend.controller;
 
 import com.example.nantodo_backend.data.CourseRepository;
+import com.example.nantodo_backend.data.GroupRepository;
 import com.example.nantodo_backend.data.UserRepository;
 import com.example.nantodo_backend.document.Course;
+import com.example.nantodo_backend.document.Group;
 import com.example.nantodo_backend.document.User;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class CourseController {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
 
     @GetMapping
     public Course getCourse(@RequestParam String id) {
@@ -38,6 +41,16 @@ public class CourseController {
     @GetMapping("/allCourse")
     public List<Course> getAllCourse() {
         return courseRepository.findAll();
+    }
+
+    @GetMapping("/allGroup")
+    public List<Group> getAllGroupOfCourse(@RequestParam String courseId, HttpServletResponse response) {
+        Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null) {
+            response.setStatus(500);
+            return null;
+        }
+        return course.getGroups().stream().map(id -> groupRepository.findById(id).orElse(null)).collect(Collectors.toList());
     }
 
     @PostMapping

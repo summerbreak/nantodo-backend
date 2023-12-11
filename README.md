@@ -29,6 +29,7 @@ Collection为对应的实体对象类型
 | /user/message     | POST   | id              | {}: Message     | 向指定user发送一条消息                | 若user不存在返回500                   |
 | /course/all       | GET    | userId          |                 | 获取指定user拥有的所有course对象        | 若user不存在返回500                   |
 | /course/allCourse | GET    |                 |                 | 获取所有课程                       |                                 |
+| /course/allGroup  | GET    | courseId        |                 | 获取指定course的所有group对象         | 若course不存在返回500                 |
 | /group/all        | GET    | userId          |                 | 获取指定user拥有的所有group对象         | 若user不存在返回500                   |
 | /group/allMember  | GET    | groupId         |                 | 获取指定group拥有的所有member(user)对象 | 若group不存在返回500                  |
 | /group/app        | POST   | id              | {}: Application | 向指定group发送申请加入请求             | 若group不存在返回500                  |
