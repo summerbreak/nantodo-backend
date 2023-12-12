@@ -1,6 +1,7 @@
 package com.example.nantodo_backend.document;
 
 import com.example.nantodo_backend.pojo.Message;
+import com.example.nantodo_backend.pojo.Setting;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,4 +26,5 @@ public class User {
     private List<String> pendingGroups = new ArrayList<>();
     private List<String> tasks = new ArrayList<>();
     private List<Message> messages = new ArrayList<>();
+    private Setting settings = new Setting();
 }
