@@ -1,9 +1,7 @@
 package com.example.nantodo_backend.controller;
 
-import com.example.nantodo_backend.data.GroupRepository;
-import com.example.nantodo_backend.data.UserRepository;
-import com.example.nantodo_backend.document.Group;
-import com.example.nantodo_backend.document.User;
+import com.example.nantodo_backend.data.*;
+import com.example.nantodo_backend.document.*;
 import com.example.nantodo_backend.pojo.Application;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +17,7 @@ import java.util.stream.Collectors;
 public class GroupController {
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
 
     @GetMapping
     public Group getGroup(@RequestParam String id) {
@@ -52,11 +51,21 @@ public class GroupController {
         User user = userRepository.findById(group.getLeaderId()).orElse(null);
         if (user == null) {
             response.setStatus(500);
-            return null;
+        } else {
+            user.getGroups().add(group.getId());
+            userRepository.save(user);
+        }
+        if (group.getType().equals("course")) {
+            // 添加到课程的小组列表
+            Course course = courseRepository.findById(group.getCourseId()).orElse(null);
+            if (course == null) {
+                response.setStatus(500);
+            } else {
+                course.getGroups().add(group.getId());
+                courseRepository.save(course);
+            }
         }
         groupRepository.save(group);
-        user.getGroups().add(group.getId());
-        userRepository.save(user);
         return group.getId();
     }
 

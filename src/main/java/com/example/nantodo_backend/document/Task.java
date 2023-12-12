@@ -18,4 +18,5 @@ public class Task {
     private boolean done;
     private Date deadline;
     private String userId;
+    private String groupId;
 }

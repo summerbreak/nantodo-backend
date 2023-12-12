@@ -1,9 +1,7 @@
 package com.example.nantodo_backend.controller;
 
-import com.example.nantodo_backend.data.TaskRepository;
-import com.example.nantodo_backend.data.UserRepository;
-import com.example.nantodo_backend.document.Task;
-import com.example.nantodo_backend.document.User;
+import com.example.nantodo_backend.data.*;
+import com.example.nantodo_backend.document.*;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +16,7 @@ import java.util.stream.Collectors;
 public class TaskController {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
 
     @GetMapping
     public Task getTask(@RequestParam String id) {
@@ -39,13 +38,23 @@ public class TaskController {
     public String addTask(@RequestBody Task task, HttpServletResponse response) {
         // 添加到用户的任务列表
         User user = userRepository.findById(task.getUserId()).orElse(null);
-        if (user == null) {
+        if (task.getUserId().isBlank()) {
+            response.setStatus(200);
+        } else if (user == null) {
             response.setStatus(500);
-            return null;
+        } else {
+            user.getTasks().add(task.getId());
+            userRepository.save(user);
+        }
+        // 添加到小组的任务列表
+        Group group = groupRepository.findById(task.getGroupId()).orElse(null);
+        if (group == null) {
+            response.setStatus(500);
+        } else {
+            group.getTasks().add(task.getId());
+            groupRepository.save(group);
         }
         taskRepository.save(task);
-        user.getTasks().add(task.getId());
-        userRepository.save(user);
         return task.getId();
     }
 
@@ -56,7 +65,27 @@ public class TaskController {
     }
 
     @DeleteMapping
-    public void deleteTask(@RequestParam String id) {
+    public void deleteTask(@RequestParam String id, HttpServletResponse response) {
+        Task task = taskRepository.findById(id).orElse(null);
         taskRepository.deleteById(id);
+        if (task == null || task.getUserId().isBlank()) {
+            return;
+        }
+        // 从用户的任务列表中删除
+        User user = userRepository.findById(task.getUserId()).orElse(null);
+        if (user == null) {
+            response.setStatus(500);
+        } else {
+            user.getTasks().remove(id);
+            userRepository.save(user);
+        }
+        // 从小组的任务列表中删除
+        Group group = groupRepository.findById(task.getGroupId()).orElse(null);
+        if (group == null) {
+            response.setStatus(500);
+            return;
+        }
+        group.getTasks().remove(id);
+        groupRepository.save(group);
     }
 }
