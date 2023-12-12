@@ -34,8 +34,20 @@ public class TaskController {
         return user.getTasks().stream().map(id -> taskRepository.findById(id).orElse(null)).collect(Collectors.toList());
     }
 
+    @GetMapping("/ofGroup")
+    public List<Task> getAllTaskOfGroup(@RequestParam String groupId, HttpServletResponse response) {
+        Group group = groupRepository.findById(groupId).orElse(null);
+        if (group == null) {
+            response.setStatus(500);
+            return null;
+        }
+        response.setStatus(200);
+        return group.getTasks().stream().map(id -> taskRepository.findById(id).orElse(null)).collect(Collectors.toList());
+    }
+
     @PostMapping
     public String addTask(@RequestBody Task task, HttpServletResponse response) {
+        taskRepository.save(task);
         // 添加到用户的任务列表
         User user = userRepository.findById(task.getUserId()).orElse(null);
         if (task.getUserId().isBlank()) {
@@ -54,7 +66,6 @@ public class TaskController {
             group.getTasks().add(task.getId());
             groupRepository.save(group);
         }
-        taskRepository.save(task);
         return task.getId();
     }
 

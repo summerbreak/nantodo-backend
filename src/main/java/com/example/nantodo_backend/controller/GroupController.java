@@ -47,6 +47,7 @@ public class GroupController {
 
     @PostMapping
     public String addGroup(@RequestBody Group group, HttpServletResponse response) {
+        groupRepository.save(group);
         // 添加到组长的小组列表
         User user = userRepository.findById(group.getLeaderId()).orElse(null);
         if (user == null) {
@@ -65,7 +66,6 @@ public class GroupController {
                 courseRepository.save(course);
             }
         }
-        groupRepository.save(group);
         return group.getId();
     }
 
