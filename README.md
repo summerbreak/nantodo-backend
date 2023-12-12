@@ -14,12 +14,12 @@ collection是枚举变量，可取值: user, course, group, homework, task
 
 Collection为对应的实体对象类型
 
-| 前缀          | method | param | body           | 功能           | 备注                            |
-| ----------- | ------ | ----- | -------------- | ------------ | ----------------------------- |
-| /collection | GET    | id    |                | 根据id获取一个对象   |                               |
-| /collection | POST   |       | {}: Collection | 添加一个对象，返回其id | 添加task和group时会顺带将其加入user的对应列表 |
-| /collection | PUT    | id    | {}: Collection | 修改一个已存在对象    |                               |
-| /collection | DELETE | id    |                | 根据id删除一个对象   |                               |
+| 前缀          | method | param | body           | 功能           | 备注                                         |
+| ----------- | ------ | ----- | -------------- | ------------ | ------------------------------------------ |
+| /collection | GET    | id    |                | 根据id获取一个对象   |                                            |
+| /collection | POST   |       | {}: Collection | 添加一个对象，返回其id | 添加task和group时会顺带将其加入user/group/course的对应列表 |
+| /collection | PUT    | id    | {}: Collection | 修改一个已存在对象    |                                            |
+| /collection | DELETE | id    |                | 根据id删除一个对象   |                                            |
 
 ## 特定接口
 
@@ -36,6 +36,7 @@ Collection为对应的实体对象类型
 | /group/invite     | PUT    | code, userId    |                 | 通过邀请码将userId添加至对应group的成员列表  | 若找不到对应group返回500，若group已满员返回400 |
 | /homework/all     | GET    | courseId        |                 | 获取指定course拥有的所有homework对象    | 若course不存在返回500                 |
 | /task/all         | GET    | userId          |                 | 获取指定user拥有的所有task对象          | 若user不存在返回500                   |
+| /task/ofGroup     | GET    | groupId         |                 | 获取指定group拥有的所有task对象         | 若group不存在返回500                  |
 
 ## 示例
 
