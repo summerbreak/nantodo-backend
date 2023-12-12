@@ -98,4 +98,30 @@ public class TaskController {
             groupRepository.save(group);
         }
     }
+
+    @DeleteMapping("/ofGroup")
+    public void deleteTaskOfGroup(@RequestParam String groupId, HttpServletResponse response) {
+        Group group = groupRepository.findById(groupId).orElse(null);
+        if (group == null) {
+            response.setStatus(500);
+            return;
+        }
+        deleteTaskInUser(group.getTasks(), taskRepository, userRepository);
+        group.getTasks().clear();
+        groupRepository.save(group);
+    }
+
+    public static void deleteTaskInUser(List<String> taskIdList, TaskRepository taskRepository, UserRepository userRepository) {
+        for (String taskId : taskIdList) {
+            Task task = taskRepository.findById(taskId).orElse(null);
+            taskRepository.deleteById(taskId);
+            if (task != null && !task.getUserId().isBlank()) {
+                User user = userRepository.findById(task.getUserId()).orElse(null);
+                if (user != null) {
+                    user.getTasks().remove(taskId);
+                    userRepository.save(user);
+                }
+            }
+        }
+    }
 }

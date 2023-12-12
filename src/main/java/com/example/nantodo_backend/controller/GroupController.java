@@ -133,17 +133,6 @@ public class GroupController {
             }
         }
         // 删除其所有任务
-        for (String taskId : group.getTasks()) {
-            Task task = taskRepository.findById(taskId).orElse(null);
-            taskRepository.deleteById(taskId);
-            if (task != null && !task.getUserId().isBlank()) {
-                // 从用户的任务列表中删除
-                User user = userRepository.findById(task.getUserId()).orElse(null);
-                if (user != null) {
-                    user.getTasks().remove(taskId);
-                    userRepository.save(user);
-                }
-            }
-        }
+        TaskController.deleteTaskInUser(group.getTasks(), taskRepository, userRepository);
     }
 }
