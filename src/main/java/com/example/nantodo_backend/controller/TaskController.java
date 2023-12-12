@@ -79,24 +79,23 @@ public class TaskController {
     public void deleteTask(@RequestParam String id, HttpServletResponse response) {
         Task task = taskRepository.findById(id).orElse(null);
         taskRepository.deleteById(id);
-        if (task == null || task.getUserId().isBlank()) {
+        if (task == null) {
+            response.setStatus(500);
             return;
         }
-        // 从用户的任务列表中删除
-        User user = userRepository.findById(task.getUserId()).orElse(null);
-        if (user == null) {
-            response.setStatus(500);
-        } else {
-            user.getTasks().remove(id);
-            userRepository.save(user);
+        if (!task.getUserId().isBlank()) {
+            // 从用户的任务列表中删除
+            User user = userRepository.findById(task.getUserId()).orElse(null);
+            if (user != null) {
+                user.getTasks().remove(id);
+                userRepository.save(user);
+            }
         }
         // 从小组的任务列表中删除
         Group group = groupRepository.findById(task.getGroupId()).orElse(null);
-        if (group == null) {
-            response.setStatus(500);
-            return;
+        if (group != null) {
+            group.getTasks().remove(id);
+            groupRepository.save(group);
         }
-        group.getTasks().remove(id);
-        groupRepository.save(group);
     }
 }

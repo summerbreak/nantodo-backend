@@ -18,6 +18,7 @@ public class GroupController {
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
+    private final TaskRepository taskRepository;
 
     @GetMapping
     public Group getGroup(@RequestParam String id) {
@@ -108,7 +109,41 @@ public class GroupController {
     }
 
     @DeleteMapping
-    public void deleteGroup(@RequestParam String id) {
+    public void deleteGroup(@RequestParam String id, HttpServletResponse response) {
+        Group group = groupRepository.findById(id).orElse(null);
         groupRepository.deleteById(id);
+        if (group == null) {
+            response.setStatus(500);
+            return;
+        }
+        for (String userId : group.getMembers()) {
+            // 从成员的小组列表中删除
+            User user = userRepository.findById(userId).orElse(null);
+            if (user != null) {
+                user.getGroups().remove(id);
+                userRepository.save(user);
+            }
+        }
+        if (group.getType().equals("course")) {
+            // 从课程的小组列表中删除
+            Course course = courseRepository.findById(group.getCourseId()).orElse(null);
+            if (course != null) {
+                course.getGroups().remove(id);
+                courseRepository.save(course);
+            }
+        }
+        // 删除其所有任务
+        for (String taskId : group.getTasks()) {
+            Task task = taskRepository.findById(taskId).orElse(null);
+            taskRepository.deleteById(taskId);
+            if (task != null && !task.getUserId().isBlank()) {
+                // 从用户的任务列表中删除
+                User user = userRepository.findById(task.getUserId()).orElse(null);
+                if (user != null) {
+                    user.getTasks().remove(taskId);
+                    userRepository.save(user);
+                }
+            }
+        }
     }
 }
