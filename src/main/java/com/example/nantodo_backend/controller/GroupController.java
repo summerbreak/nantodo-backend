@@ -48,6 +48,8 @@ public class GroupController {
 
     @PostMapping
     public String addGroup(@RequestBody Group group, HttpServletResponse response) {
+        // 将leaderId添加到members中
+        group.getMembers().add(group.getLeaderId());
         groupRepository.save(group);
         // 添加到组长的小组列表
         User user = userRepository.findById(group.getLeaderId()).orElse(null);
