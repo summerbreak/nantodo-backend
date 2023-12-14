@@ -70,7 +70,28 @@ public class TaskController {
     }
 
     @PutMapping
-    public void updateTask(@RequestParam String id, @RequestBody Task task) {
+    public void updateTask(@RequestParam String id, @RequestBody Task task, HttpServletResponse response) {
+        Task originalTask = taskRepository.findById(id).orElse(null);
+        if (originalTask == null) {
+            response.setStatus(500);
+            return;
+        }
+        if (!originalTask.getUserId().equals(task.getUserId())) {
+            // 从原用户的任务列表中删除
+            User originalUser = userRepository.findById(originalTask.getUserId()).orElse(null);
+            if (originalUser != null) {
+                originalUser.getTasks().remove(id);
+                userRepository.save(originalUser);
+            }
+            // 添加到新用户的任务列表
+            User user = userRepository.findById(task.getUserId()).orElse(null);
+            if (user == null) {
+                response.setStatus(500);
+                return;
+            }
+            user.getTasks().add(id);
+            userRepository.save(user);
+        }
         task.setId(id);
         taskRepository.save(task);
     }

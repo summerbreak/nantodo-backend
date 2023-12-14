@@ -137,4 +137,21 @@ public class GroupController {
         // 删除其所有任务
         TaskController.deleteTaskInUser(group.getTasks(), taskRepository, userRepository);
     }
+
+    @DeleteMapping("/member")
+    public void deleteMemberOfGroup(@RequestParam String userId, @RequestParam String groupId, HttpServletResponse response) {
+        Group group = groupRepository.findById(groupId).orElse(null);
+        if (group == null) {
+            response.setStatus(500);
+            return;
+        }
+        group.getMembers().remove(userId);
+        groupRepository.save(group);
+        // 从成员的小组列表中删除
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            user.getGroups().remove(groupId);
+            userRepository.save(user);
+        }
+    }
 }
