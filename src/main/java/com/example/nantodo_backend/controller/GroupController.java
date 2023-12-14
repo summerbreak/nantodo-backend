@@ -79,7 +79,7 @@ public class GroupController {
             response.setStatus(500);
             return;
         }
-        group.getApplications().add(application);
+        group.getApplications().add(0, application);
         groupRepository.save(group);
     }
 

@@ -49,7 +49,8 @@ public class UserController {
             response.setStatus(500);
             return;
         }
-        user.getMessages().add(message);
+        // 在开头加入新的消息
+        user.getMessages().add(0, message);
         userRepository.save(user);
     }
 
