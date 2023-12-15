@@ -89,6 +89,25 @@ public class GroupController {
         groupRepository.save(group);
     }
 
+    @PutMapping("/app")
+    public void updateApplication(@RequestParam String id, @RequestBody Application application, HttpServletResponse response) {
+        Group group = groupRepository.findById(id).orElse(null);
+        if (group == null) {
+            response.setStatus(500);
+            return;
+        }
+        for (int i = 0; i < group.getApplications().size(); i++) {
+            if (group.getApplications().get(i).getTimestamp().equals(application.getTimestamp())) {
+                group.getApplications().set(i, application);
+                break;
+            }
+        }
+        if (application.getStatus().equals("accepted")) {
+            group.getMembers().add(application.getUserId());
+        }
+        groupRepository.save(group);
+    }
+
     // 通过邀请码加入小组
     @PutMapping("/invite")
     public void joinByInviting(@RequestParam String code, @RequestParam String userId, HttpServletResponse response) {
