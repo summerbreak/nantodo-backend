@@ -36,8 +36,15 @@ public class HomeworkController {
     }
 
     @PostMapping
-    public String addHomework(@RequestBody Homework homework) {
+    public String addHomework(@RequestBody Homework homework, HttpServletResponse response) {
+        Course course = courseRepository.findById(homework.getCourseId()).orElse(null);
+        if (course == null) {
+            response.setStatus(500);
+            return null;
+        }
         homeworkRepository.save(homework);
+        course.getHomeworks().add(homework.getId());
+        courseRepository.save(course);
         return homework.getId();
     }
 
