@@ -46,6 +46,18 @@ public class GroupController {
         return group.getMembers().stream().map(id -> userRepository.findById(id).orElse(null)).collect(Collectors.toList());
     }
 
+    @GetMapping("/free")
+    public List<Group> getAllFreeGroup() {
+        List<Group> groups = groupRepository.findAll();
+        List<Group> freeGroups = new ArrayList<>();
+        for (Group group : groups) {
+            if (!group.getType().equals("course")) {
+                freeGroups.add(group);
+            }
+        }
+        return freeGroups;
+    }
+
     @PostMapping
     public String addGroup(@RequestBody Group group, HttpServletResponse response) {
         // 将leaderId添加到members中

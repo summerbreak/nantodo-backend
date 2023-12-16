@@ -32,6 +32,7 @@ Collection为对应的实体对象类型
 | /course/allGroup  | GET    | courseId        |                 | 获取指定course的所有group对象                     | 若course不存在返回500                 |
 | /group/all        | GET    | userId          |                 | 获取指定user拥有的所有group对象                     | 若user不存在返回500                   |
 | /group/allMember  | GET    | groupId         |                 | 获取指定group拥有的所有member(user)对象             | 若group不存在返回500                  |
+| /group/free       | GET    |                 |                 | 获取所有自由组队（非课程组队）的group对象                  |                                 |
 | /group/app        | POST   | id              | {}: Application | 向指定group发送申请加入请求                         | 若group不存在返回500                  |
 | /group/invite     | PUT    | code, userId    |                 | 通过邀请码将userId添加至对应group的成员列表              | 若找不到对应group返回500，若group已满员返回400 |
 | /group/app        | PUT    | id              | {}: Application | 更新指定group中的指定application                 | 若找不到对应group则返回500               |
