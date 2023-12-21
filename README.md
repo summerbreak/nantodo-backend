@@ -34,9 +34,11 @@ Collection为对应的实体对象类型
 | /group/allMember  | GET    | groupId         |                 | 获取指定group拥有的所有member(user)对象             | 若group不存在返回500                  |
 | /group/free       | GET    |                 |                 | 获取所有自由组队（非课程组队）的group对象                  |                                 |
 | /group/app        | POST   | id              | {}: Application | 向指定group发送申请加入请求                         | 若group不存在返回500                  |
+| /group/tool       | POST   | id              | {}: Tool        | 给指定group添加tool                           | 若group不存在返回500                  |
 | /group/invite     | PUT    | code, userId    |                 | 通过邀请码将userId添加至对应group的成员列表              | 若找不到对应group返回500，若group已满员返回400 |
 | /group/app        | PUT    | id              | {}: Application | 更新指定group中的指定application                 | 若找不到对应group则返回500               |
 | /group/member     | DELETE | userId, groupId |                 | 删除指定group中的对应member，且删除指定user中的对应group   | 若找不到对应group返回500                |
+| /group/tool       | DELETE | groupId, name   |                 | 删除指定group中的指定tool                        |                                 |
 | /homework/all     | GET    | courseId        |                 | 获取指定course拥有的所有homework对象                | 若course不存在返回500                 |
 | /task/all         | GET    | userId          |                 | 获取指定user拥有的所有task对象                      | 若user不存在返回500                   |
 | /task/ofGroup     | GET    | groupId         |                 | 获取指定group拥有的所有task对象                     | 若group不存在返回500                  |

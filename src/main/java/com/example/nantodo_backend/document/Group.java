@@ -1,6 +1,7 @@
 package com.example.nantodo_backend.document;
 
 import com.example.nantodo_backend.pojo.Application;
+import com.example.nantodo_backend.pojo.Tool;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,4 +24,5 @@ public class Group {
     private List<String> members = new ArrayList<>();
     private List<String> tasks = new ArrayList<>();
     private List<Application> applications = new ArrayList<>();
+    private List<Tool> tools = new ArrayList<>();
 }

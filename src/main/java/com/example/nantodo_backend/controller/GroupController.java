@@ -3,6 +3,7 @@ package com.example.nantodo_backend.controller;
 import com.example.nantodo_backend.data.*;
 import com.example.nantodo_backend.document.*;
 import com.example.nantodo_backend.pojo.Application;
+import com.example.nantodo_backend.pojo.Tool;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -95,6 +96,17 @@ public class GroupController {
         groupRepository.save(group);
     }
 
+    @PostMapping("/tool")
+    public void addTool(@RequestParam String id, @RequestBody Tool tool, HttpServletResponse response) {
+        Group group = groupRepository.findById(id).orElse(null);
+        if (group == null) {
+            response.setStatus(500);
+            return;
+        }
+        group.getTools().add(tool);
+        groupRepository.save(group);
+    }
+
     @PutMapping
     public void updateGroup(@RequestParam String id, @RequestBody Group group) {
         group.setId(id);
@@ -184,5 +196,21 @@ public class GroupController {
             user.getGroups().remove(groupId);
             userRepository.save(user);
         }
+    }
+
+    @DeleteMapping("/tool")
+    public void deleteTool(@RequestParam String groupId, @RequestParam String name, HttpServletResponse response) {
+        Group group = groupRepository.findById(groupId).orElse(null);
+        if (group == null) {
+            response.setStatus(500);
+            return;
+        }
+        for (int i = 0; i < group.getTools().size(); i++) {
+            if (group.getTools().get(i).getName().equals(name)) {
+                group.getTools().remove(i);
+                break;
+            }
+        }
+        groupRepository.save(group);
     }
 }
