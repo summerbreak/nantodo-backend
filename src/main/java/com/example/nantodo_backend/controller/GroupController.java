@@ -128,6 +128,12 @@ public class GroupController {
         }
         if (application.getStatus().equals("accepted")) {
             group.getMembers().add(application.getUserId());
+            // 添加到用户的小组列表
+            User user = userRepository.findById(application.getUserId()).orElse(null);
+            if (user != null) {
+                user.getGroups().add(id);
+                userRepository.save(user);
+            }
         }
         groupRepository.save(group);
     }
