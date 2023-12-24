@@ -152,6 +152,12 @@ public class GroupController {
                 }
                 group.getMembers().add(userId);
                 groupRepository.save(group);
+                // 添加到用户的小组列表
+                User user = userRepository.findById(userId).orElse(null);
+                if (user != null) {
+                    user.getGroups().add(group.getId());
+                    userRepository.save(user);
+                }
                 return;
             }
         }
